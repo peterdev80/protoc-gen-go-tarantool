@@ -94,7 +94,7 @@ func GeneratorMsgPK(gen *protogen.Plugin, file *protogen.File) *protogen.Generat
     "fmt"
 	"github.com/vmihailenco/msgpack/v5"
 	)`)
-	g.P("//", file.Messages[0])
+	
 
 	for _, msg := range file.Messages {
 		g.P("func (x *", msg.GoIdent, ")EncodeMsgpack(enc *msgpack.Encoder) error {")
