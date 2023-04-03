@@ -1,0 +1,16 @@
+syntax = "proto3";
+package demo;
+option go_package = "demo/v1;pb";
+
+// демо сообщение
+message Ex {
+  // идентификатор для сообщения
+  string id_num=1;
+  // одно из значений в value
+  oneof value{
+    // значение типа int
+    int64 i_data=2;
+    // значение типа string
+    string s_data=3;
+  }
+}
