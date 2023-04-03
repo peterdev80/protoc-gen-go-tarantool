@@ -15,3 +15,11 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install github.com/peterdev80/protoc-gen-go-tarantool/cmd/protoc-gen-go-tarantool@latest
 ```
 
+для генерации структуры для tarantool 
+```
+	protoc \
+    	  --proto_path=$(PROTO_PATCH)\
+           --go_out=. \
+           --go-tarantool_out=. \
+         $(PROTO_PATCH)/a1/*.proto
+```
