@@ -23,3 +23,5 @@ go install github.com/peterdev80/protoc-gen-go-tarantool/cmd/protoc-gen-go-taran
            --go-tarantool_out=. \
          $(PROTO_PATCH)/a1/*.proto
 ```
+
+Демонстрация работы в [example](./example/README.md)

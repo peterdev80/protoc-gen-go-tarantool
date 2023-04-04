@@ -13,4 +13,8 @@ proto:
 lint:
 	golangci-lint run --fix ./...
 
-.PHONY: lint proto
+
+run:
+	go run -tags go_tarantool_ssl_disable,go_tarantool_msgpack_v5 main.go
+
+.PHONY: lint proto run

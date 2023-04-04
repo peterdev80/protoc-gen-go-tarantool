@@ -3,14 +3,14 @@ package main
 import (
 	"fmt"
 	pb "gen-go-tarantool-demo/demo/v1"
-	"github.com/tarantool/go-tarantool"
+	tnt "github.com/tarantool/go-tarantool"
 )
 
 func main() {
-	opts := tarantool.Opts{User: "test", Pass: "test"}
-	conn, err := tarantool.Connect("127.0.0.1:3401", opts)
+	opts := tnt.Opts{User: "test", Pass: "test"}
+	conn, err := tnt.Connect("127.0.0.1:3401", opts)
 	if err != nil {
-		fmt.Println("Connection refused:", err)
+		panic(err)
 	}
 	defer conn.Close()
 
