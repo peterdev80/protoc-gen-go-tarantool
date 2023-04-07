@@ -41,6 +41,11 @@ func decode(g *protogen.GeneratedFile, msg *protogen.Message) {
 	g.P("}")
 	mof := map[string]struct{}{}
 	for _, f := range msg.Fields {
+		if f.Enum != nil {
+			decodeEnum(g, f)
+			continue
+
+		}
 		// обработка oneof
 		if f.Oneof != nil {
 			name := f.Oneof.GoName
@@ -68,7 +73,13 @@ func decode(g *protogen.GeneratedFile, msg *protogen.Message) {
 		}
 	}
 }
-
+func decodeEnum(g *protogen.GeneratedFile, f *protogen.Field) {
+	g.P("en", f.GoName, ",err:=dec.DecodeInt32()")
+	g.P("if err != nil {")
+	g.P("return err")
+	g.P("}")
+	g.P(" x.", f.GoName, "=", f.Enum.GoIdent, "(", "en", f.GoName, ")")
+}
 func decodeOneof(g *protogen.GeneratedFile, f *protogen.Field, name string) {
 	g.P("var val", name, " interface{}")
 	g.P("if err=dec.Decode(&val", name, ");err!=nil{")
