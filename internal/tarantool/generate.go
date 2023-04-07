@@ -56,7 +56,7 @@ func typeCmd(tp string) (string, string, string) { //nolint:cyclop
 	case "byte":
 		return "EncodeBytes", "DecodeBytes", "[]byte"
 	default:
-		return "Encode", "Decode", ""
+		return "Encode", "Decode", "*" + tp // возвращает тип Message
 
 	}
 }

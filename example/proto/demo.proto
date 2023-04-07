@@ -1,16 +1,61 @@
+// Описание сообщений передачи текущих данных из микросервисов в таратул
 syntax = "proto3";
-package demo;
-option go_package = "demo/v1;pb";
+package api_tnt;
+option go_package = "api/v1/api_tnt;pb";
 
-// демо сообщение
-message Ex {
-  // идентификатор для сообщения
-  string id_num=1;
-  // одно из значений в value
-  oneof value{
-    // значение типа int
-    int64 i_data=2;
-    // значение типа string
-    string s_data=3;
-  }
+// Сообщение с текщими значениями атрибута
+message AttrValue{
+  // уникальный индификатор оборудования
+  string  unit_guid   = 1;
+  //
+  string  object_id   = 2;
+  //
+  string  attr_id     = 3;
+  //
+  int64   timestamp   = 4;
+  //
+  double value       = 5;
+  //
+  Action	action		= 6;
+}
+
+message ResponcePutAttrValue{
+}
+
+message RequestPutAttrValue{
+  repeated AttrValue attr_values = 1;
+}
+
+message RequestGetAttrValue{
+  int64 batch_size = 1;
+}
+
+message GetMessageValue{
+  // уникальный индификатор оборудования
+  int64		id 			= 1;
+  string		status 		= 2;
+  AttrValue 	data 		= 3;
+}
+
+message ResponseGetAttrValue{
+  repeated GetMessageValue attr_values = 1;
+}
+
+message RequestAck{
+  repeated int64 ids = 1;
+}
+
+message ResponseAck{
+}
+
+// 
+enum Action{
+  ACTION_ACTION_UNKNOW_UNSPECIFIED = 0;
+  ACTION_ACTION_CLICKHOUSE = 1;
+}
+
+service BufferBusService{
+  rpc Put(RequestPutAttrValue) returns (ResponcePutAttrValue){}
+  rpc Get(RequestGetAttrValue) returns (ResponseGetAttrValue){}
+  rpc Ack(RequestAck) returns (ResponseAck){}
 }
