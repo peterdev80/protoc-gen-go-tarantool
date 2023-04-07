@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	pb "gen-go-tarantool-demo/demo/v1"
+	pb "gen-go-tarantool-demo/api/v1/api_tnt"
+
 	tnt "github.com/tarantool/go-tarantool"
 )
 
@@ -14,17 +15,24 @@ func main() {
 	}
 	defer conn.Close()
 
-	var x = pb.Ex{
-		IdNum: "1",
-		Value: &pb.Ex_IData{IData: 1},
-	}
+	x := pb.RequestPutAttrValue{AttrValues: []*pb.AttrValue{&pb.AttrValue{
+		UnitGuid:  "xx-1",
+		ObjectId:  "yy-1",
+		AttrId:    "atr-1",
+		Timestamp: 01234,
+		Value:     345,
+		Action:    pb.Action_ACTION_ACTION_CLICKHOUSE,
+	}}}
 
-	var y []pb.Ex
+	var y []pb.RequestPutAttrValue
 
 	err = conn.Call17Typed("push_messages", []interface{}{&x}, &y)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%#v", &y[0])
+
+	for _, msg := range y[0].GetAttrValues() {
+		fmt.Printf("%#v", msg)
+	}
 
 }

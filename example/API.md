@@ -4,7 +4,18 @@
 ## Table of Contents
 
 - [demo.proto](#demo-proto)
-    - [Ex](#demo-Ex)
+    - [AttrValue](#api_tnt-AttrValue)
+    - [GetMessageValue](#api_tnt-GetMessageValue)
+    - [RequestAck](#api_tnt-RequestAck)
+    - [RequestGetAttrValue](#api_tnt-RequestGetAttrValue)
+    - [RequestPutAttrValue](#api_tnt-RequestPutAttrValue)
+    - [ResponcePutAttrValue](#api_tnt-ResponcePutAttrValue)
+    - [ResponseAck](#api_tnt-ResponseAck)
+    - [ResponseGetAttrValue](#api_tnt-ResponseGetAttrValue)
+  
+    - [Action](#api_tnt-Action)
+  
+    - [BufferBusService](#api_tnt-BufferBusService)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -14,20 +25,120 @@
 <p align="right"><a href="#top">Top</a></p>
 
 ## demo.proto
+Описание сообщений передачи текущих данных из микросервисов в таратул
 
 
+<a name="api_tnt-AttrValue"></a>
 
-<a name="demo-Ex"></a>
-
-### Ex
-демо сообщение
+### AttrValue
+Сообщение с текщими значениями атрибута
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id_num | [string](#string) |  | идентификатор для сообщения |
-| i_data | [int64](#int64) |  | значение типа int |
-| s_data | [string](#string) |  | значение типа string |
+| unit_guid | [string](#string) |  | уникальный индификатор оборудования |
+| object_id | [string](#string) |  |  |
+| attr_id | [string](#string) |  |  |
+| timestamp | [int64](#int64) |  |  |
+| value | [double](#double) |  |  |
+| action | [Action](#api_tnt-Action) |  |  |
+
+
+
+
+
+
+<a name="api_tnt-GetMessageValue"></a>
+
+### GetMessageValue
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int64](#int64) |  | уникальный индификатор оборудования |
+| status | [string](#string) |  |  |
+| data | [AttrValue](#api_tnt-AttrValue) |  |  |
+
+
+
+
+
+
+<a name="api_tnt-RequestAck"></a>
+
+### RequestAck
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ids | [int64](#int64) | repeated |  |
+
+
+
+
+
+
+<a name="api_tnt-RequestGetAttrValue"></a>
+
+### RequestGetAttrValue
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| batch_size | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="api_tnt-RequestPutAttrValue"></a>
+
+### RequestPutAttrValue
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| attr_values | [AttrValue](#api_tnt-AttrValue) | repeated |  |
+
+
+
+
+
+
+<a name="api_tnt-ResponcePutAttrValue"></a>
+
+### ResponcePutAttrValue
+
+
+
+
+
+
+
+<a name="api_tnt-ResponseAck"></a>
+
+### ResponseAck
+
+
+
+
+
+
+
+<a name="api_tnt-ResponseGetAttrValue"></a>
+
+### ResponseGetAttrValue
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| attr_values | [GetMessageValue](#api_tnt-GetMessageValue) | repeated |  |
 
 
 
@@ -35,9 +146,33 @@
 
  
 
+
+<a name="api_tnt-Action"></a>
+
+### Action
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ACTION_ACTION_UNKNOW_UNSPECIFIED | 0 |  |
+| ACTION_ACTION_CLICKHOUSE | 1 |  |
+
+
  
 
  
+
+
+<a name="api_tnt-BufferBusService"></a>
+
+### BufferBusService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| Put | [RequestPutAttrValue](#api_tnt-RequestPutAttrValue) | [ResponcePutAttrValue](#api_tnt-ResponcePutAttrValue) |  |
+| Get | [RequestGetAttrValue](#api_tnt-RequestGetAttrValue) | [ResponseGetAttrValue](#api_tnt-ResponseGetAttrValue) |  |
+| Ack | [RequestAck](#api_tnt-RequestAck) | [ResponseAck](#api_tnt-ResponseAck) |  |
 
  
 
