@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f316d2ac-d3d1-49ca-9afb-cccaecea1b16" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/proto/history.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API.md" beforeDir="false" afterPath="$PROJECT_DIR$/API.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/v1/api_tnt/demo.msgpk.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/v1/api_tnt/demo.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/proto/demo.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../internal/tarantool/decoder.go" beforeDir="false" afterPath="$PROJECT_DIR$/../internal/tarantool/decoder.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../internal/tarantool/generate.go" beforeDir="false" afterPath="$PROJECT_DIR$/../internal/tarantool/generate.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

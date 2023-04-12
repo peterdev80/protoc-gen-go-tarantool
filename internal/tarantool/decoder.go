@@ -48,7 +48,7 @@ func decode(g *protogen.GeneratedFile, msg *protogen.Message) {
 		if f.Enum != nil {
 			// если enum и slice, то декодер по типу enum
 			if f.Desc.Cardinality().String() == "repeated" {
-				cst := decodeGen(f.Enum.GoIdent.String())
+				cst := decodeGen(f.Enum.GoIdent.GoName)
 				cst.slcDecodeMessage(g, f.GoName)
 
 				continue
