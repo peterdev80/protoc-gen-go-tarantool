@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f316d2ac-d3d1-49ca-9afb-cccaecea1b16" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../go.sum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/history.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API.md" beforeDir="false" afterPath="$PROJECT_DIR$/API.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/api_tnt/demo.msgpk.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/api_tnt/demo.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/proto/demo.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../internal/tarantool/decoder.go" beforeDir="false" afterPath="$PROJECT_DIR$/../internal/tarantool/decoder.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../internal/tarantool/generate.go" beforeDir="false" afterPath="$PROJECT_DIR$/../internal/tarantool/generate.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +61,7 @@
       <recent name="$PROJECT_DIR$/tnt" />
     </key>
   </component>
-  <component name="RunManager" selected="Makefile Target.lint">
+  <component name="RunManager" selected="Makefile Target.proto">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="example" />
       <working_directory value="$PROJECT_DIR$" />
@@ -73,16 +79,6 @@
       <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="example" />
-      <working_directory value="$PROJECT_DIR$" />
-      <go_parameters value="-tags go_tarantool_ssl_disable,go_tarantool_msgpack_v5" />
-      <kind value="FILE" />
-      <package value="gen-go-tarantool-demo" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/main.go" />
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="example" />
       <working_directory value="$PROJECT_DIR$" />
@@ -92,8 +88,11 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
-    <configuration name="lint" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
-      <makefile filename="$PROJECT_DIR$/Makefile" target="lint" workingDirectory="" arguments="">
+    <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" requestIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="proto" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="proto" workingDirectory="" arguments="">
         <envs />
       </makefile>
       <method v="2" />
@@ -104,19 +103,23 @@
       </makefile>
       <method v="2" />
     </configuration>
-    <configuration name="tarantool" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
-      <makefile filename="$PROJECT_DIR$/Makefile" target="tarantool" workingDirectory="" arguments="">
-        <envs />
-      </makefile>
+    <configuration name="init.lua" type="lua.app" factoryName="Lua Application" temporary="true">
+      <option name="program" value="/opt/homebrew/bin/lua" />
+      <option name="file" value="$PROJECT_DIR$/tnt/init.lua" />
+      <option name="workingDir" value="" />
+      <option name="debuggerType" value="2" />
+      <option name="params" value="" />
+      <option name="charset" value="UTF-8" />
+      <option name="showConsole" value="true" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Makefile Target.tarantool" />
+        <item itemvalue="Makefile Target.proto" />
+        <item itemvalue="HTTP Request.generated-requests | #1" />
         <item itemvalue="Makefile Target.run" />
-        <item itemvalue="Makefile Target.lint" />
-        <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="Go Build.go build gen-go-tarantool-demo" />
+        <item itemvalue="Lua Application.init.lua" />
       </list>
     </recent_temporary>
   </component>

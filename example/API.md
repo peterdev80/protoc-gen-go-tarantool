@@ -3,15 +3,20 @@
 
 ## Table of Contents
 
-- [demo.proto](#demo-proto)
-    - [AttrValue](#api_tnt-AttrValue)
-    - [GetMessageValue](#api_tnt-GetMessageValue)
+- [asu.proto](#asu-proto)
+    - [PlcAttribute](#api_tnt-PlcAttribute)
+    - [RequestPutAttributePlc](#api_tnt-RequestPutAttributePlc)
+    - [TableAsu](#api_tnt-TableAsu)
+  
+- [history.proto](#history-proto)
+    - [Attribute](#api_tnt-Attribute)
+    - [QueueMessage](#api_tnt-QueueMessage)
     - [RequestAck](#api_tnt-RequestAck)
-    - [RequestGetAttrValue](#api_tnt-RequestGetAttrValue)
-    - [RequestPutAttrValue](#api_tnt-RequestPutAttrValue)
-    - [ResponcePutAttrValue](#api_tnt-ResponcePutAttrValue)
+    - [RequestListAttributeBus](#api_tnt-RequestListAttributeBus)
+    - [RequestPutAttributeBus](#api_tnt-RequestPutAttributeBus)
     - [ResponseAck](#api_tnt-ResponseAck)
-    - [ResponseGetAttrValue](#api_tnt-ResponseGetAttrValue)
+    - [ResponseListAttributeBus](#api_tnt-ResponseListAttributeBus)
+    - [ResponsePutAttributeBus](#api_tnt-ResponsePutAttributeBus)
   
     - [Action](#api_tnt-Action)
   
@@ -21,44 +26,108 @@
 
 
 
-<a name="demo-proto"></a>
+<a name="asu-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## demo.proto
+## asu.proto
+Описание сообщений передачи сервисом асу
+
+
+<a name="api_tnt-PlcAttribute"></a>
+
+### PlcAttribute
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| plc_id | [string](#string) |  | уникальный идентификатор оборудования |
+| tag_id | [string](#string) |  |  |
+| id | [string](#string) |  | идентификатор атрибута |
+| timestamp | [int64](#int64) |  | unix time времени |
+| value | [double](#double) |  | значение атрибута |
+| action | [Action](#api_tnt-Action) |  | действия применяемые к атрибуту |
+
+
+
+
+
+
+<a name="api_tnt-RequestPutAttributePlc"></a>
+
+### RequestPutAttributePlc
+
+
+
+
+
+
+
+<a name="api_tnt-TableAsu"></a>
+
+### TableAsu
+таблица соответствия plc unitguid
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| plc_id | [string](#string) |  |  |
+| tag_id | [string](#string) |  |  |
+| unit_guid | [string](#string) |  |  |
+| object_id | [string](#string) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="history-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## history.proto
 Описание сообщений передачи текущих данных из микросервисов в таратул
 
 
-<a name="api_tnt-AttrValue"></a>
+<a name="api_tnt-Attribute"></a>
 
-### AttrValue
-Сообщение с текщими значениями атрибута
+### Attribute
+Сообщение с текущими значениями атрибута
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| unit_guid | [string](#string) |  | уникальный индификатор оборудования |
+| unit_guid | [string](#string) |  | уникальный идентификатор оборудования |
 | object_id | [string](#string) |  |  |
-| attr_id | [string](#string) |  |  |
-| timestamp | [int64](#int64) |  |  |
-| value | [double](#double) |  |  |
-| action | [Action](#api_tnt-Action) |  |  |
+| id | [string](#string) |  | идентификатор атрибута |
+| timestamp | [int64](#int64) |  | unix time времени |
+| value | [double](#double) |  | значение атрибута |
+| actions | [Action](#api_tnt-Action) | repeated | действия применяемые к атрибуту |
 
 
 
 
 
 
-<a name="api_tnt-GetMessageValue"></a>
+<a name="api_tnt-QueueMessage"></a>
 
-### GetMessageValue
-
+### QueueMessage
+сообщение получаемое из очереди
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [int64](#int64) |  | уникальный индификатор оборудования |
-| status | [string](#string) |  |  |
-| data | [AttrValue](#api_tnt-AttrValue) |  |  |
+| id | [int64](#int64) |  | уникальный идентификатор сообщения (позиция в очереди) |
+| status | [string](#string) |  | статус сообщения |
+| data | [Attribute](#api_tnt-Attribute) |  | атрибут |
 
 
 
@@ -68,52 +137,42 @@
 <a name="api_tnt-RequestAck"></a>
 
 ### RequestAck
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ids | [int64](#int64) | repeated |  |
-
-
-
-
-
-
-<a name="api_tnt-RequestGetAttrValue"></a>
-
-### RequestGetAttrValue
-
+сообщение на подтверждение обработки message
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| batch_size | [int64](#int64) |  |  |
+| ids | [int64](#int64) | repeated | список уникальных идентификатор сообщения |
 
 
 
 
 
 
-<a name="api_tnt-RequestPutAttrValue"></a>
+<a name="api_tnt-RequestListAttributeBus"></a>
 
-### RequestPutAttrValue
-
+### RequestListAttributeBus
+запрос атрибут из шины
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| attr_values | [AttrValue](#api_tnt-AttrValue) | repeated |  |
+| batch_size | [int64](#int64) |  | количество атрибутов в ответе |
 
 
 
 
 
 
-<a name="api_tnt-ResponcePutAttrValue"></a>
+<a name="api_tnt-RequestPutAttributeBus"></a>
 
-### ResponcePutAttrValue
+### RequestPutAttributeBus
+отправить аттрибут в шину
 
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| attrs | [Attribute](#api_tnt-Attribute) | repeated | пакет атрибутов |
 
 
 
@@ -130,15 +189,25 @@
 
 
 
-<a name="api_tnt-ResponseGetAttrValue"></a>
+<a name="api_tnt-ResponseListAttributeBus"></a>
 
-### ResponseGetAttrValue
-
+### ResponseListAttributeBus
+ответ на запрос атрибут
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| attr_values | [GetMessageValue](#api_tnt-GetMessageValue) | repeated |  |
+| messages | [QueueMessage](#api_tnt-QueueMessage) | repeated | список атрибут |
+
+
+
+
+
+
+<a name="api_tnt-ResponsePutAttributeBus"></a>
+
+### ResponsePutAttributeBus
+результат отправки атрибута в шину
 
 
 
@@ -150,12 +219,12 @@
 <a name="api_tnt-Action"></a>
 
 ### Action
-
+действие которые необходимо совершить с сообщением
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| ACTION_ACTION_UNKNOW_UNSPECIFIED | 0 |  |
-| ACTION_ACTION_CLICKHOUSE | 1 |  |
+| ACTION_ACTION_UNKNOWN_UNSPECIFIED | 0 | не определено |
+| ACTION_ACTION_CLICKHOUSE | 1 | передавать в clickhouse |
 
 
  
@@ -170,8 +239,8 @@
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Put | [RequestPutAttrValue](#api_tnt-RequestPutAttrValue) | [ResponcePutAttrValue](#api_tnt-ResponcePutAttrValue) |  |
-| Get | [RequestGetAttrValue](#api_tnt-RequestGetAttrValue) | [ResponseGetAttrValue](#api_tnt-ResponseGetAttrValue) |  |
+| PutAttributeBus | [RequestPutAttributeBus](#api_tnt-RequestPutAttributeBus) | [ResponsePutAttributeBus](#api_tnt-ResponsePutAttributeBus) |  |
+| ListAttributeBus | [RequestListAttributeBus](#api_tnt-RequestListAttributeBus) | [ResponseListAttributeBus](#api_tnt-ResponseListAttributeBus) |  |
 | Ack | [RequestAck](#api_tnt-RequestAck) | [ResponseAck](#api_tnt-ResponseAck) |  |
 
  

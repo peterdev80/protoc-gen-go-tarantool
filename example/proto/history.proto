@@ -1,0 +1,79 @@
+// Описание сообщений передачи текущих данных из микросервисов в таратул
+syntax = "proto3";
+package api_tnt;
+option go_package = "api/v1/api_tnt;tnt";
+
+// Сообщение с текущими значениями атрибута
+message Attribute{
+  // уникальный идентификатор оборудования
+  string  unit_guid   = 1;
+  //
+  string  object_id   = 2;
+  // идентификатор атрибута
+  string  id     = 3;
+  // unix time времени
+  int64   timestamp   = 4;
+  // значение атрибута
+  double value       = 5;
+  // действия применяемые к атрибуту
+  repeated Action actions=6;
+}
+
+// результат отправки атрибута в шину
+message ResponsePutAttributeBus{
+
+}
+
+// отправить аттрибут в шину
+message RequestPutAttributeBus{
+  // пакет атрибутов
+  repeated Attribute attrs = 1;
+
+}
+
+// запрос атрибут из шины
+message RequestListAttributeBus{
+  // количество атрибутов в ответе
+  int64 batch_size = 1;
+}
+
+// сообщение получаемое из очереди
+message QueueMessage{
+  // уникальный идентификатор сообщения (позиция в очереди)
+  int64		id 			= 1;
+  // статус сообщения
+  string		status 		= 2;
+  // атрибут
+  Attribute 	data 		= 3;
+}
+
+// ответ на запрос атрибут
+message ResponseListAttributeBus{
+  // список атрибут
+  repeated QueueMessage messages = 1;
+}
+
+// сообщение на подтверждение обработки message
+message RequestAck{
+  // список уникальных идентификатор сообщения
+  repeated int64 ids = 1;
+}
+//
+message ResponseAck{
+}
+
+// действие которые необходимо совершить с сообщением
+enum Action{
+  // не определено
+  ACTION_ACTION_UNKNOWN_UNSPECIFIED = 0;
+  // передавать в clickhouse
+  ACTION_ACTION_CLICKHOUSE = 1;
+}
+
+service BufferBusService{
+  rpc PutAttributeBus(RequestPutAttributeBus) returns
+      (ResponsePutAttributeBus){}
+  rpc ListAttributeBus(RequestListAttributeBus) returns
+      (ResponseListAttributeBus){}
+  rpc Ack(RequestAck) returns (ResponseAck){}
+}

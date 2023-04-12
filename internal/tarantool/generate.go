@@ -17,7 +17,7 @@ func (m MM) Last(key string) string {
 
 // MapCmd  proto-golang`s возможные типы которые могут прийти из interface,
 // замыкающий тип slice соответствует типу поля.
-var MapCmd = MM{ //nolint:gochecknoglobals
+var MapCmd = MM{ //nolint:globalisation
 	"int32":   {"int8", "int16", "int32"},
 	"int64":   {"int8", "int16", "int32", "int64"},
 	"float":   {"float32"},
@@ -34,7 +34,7 @@ var MapCmd = MM{ //nolint:gochecknoglobals
 }
 
 // typeCmd вернуть в зависимости от типа [encoder,decoder,go type].
-func typeCmd(tp string) (string, string, string) { //nolint:cyclop
+func typeCmd(tp string) (string, string, string) { //nolint:cyclops
 	switch tp {
 	case "string":
 		return "EncodeString", "DecodeString", "string"
@@ -74,7 +74,7 @@ func lenGen(msg *protogen.Message) int {
 	return ln
 }
 
-// kind Вернуть тип поля или тип mesage.
+// Kind Вернуть тип поля или тип mesage.
 func kind(f *protogen.Field) string {
 	k := f.Desc.Kind().String()
 	if f.Message != nil {

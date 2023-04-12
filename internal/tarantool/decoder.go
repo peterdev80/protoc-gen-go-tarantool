@@ -4,18 +4,21 @@ import "google.golang.org/protobuf/compiler/protogen"
 
 type decodeGen string
 
+// decoder скалярного типа
 func (dg decodeGen) decodeType(g *protogen.GeneratedFile, fieldName string) {
 	g.P("if x.", fieldName, ",err= dec.", dg, "(); err != nil {")
 	g.P("return err")
 	g.P("} ")
 }
 
+// decoder структуры
 func (dg decodeGen) decodeMessage(g *protogen.GeneratedFile, fieldName string) {
 	g.P("if err := dec.Decode(&x.", fieldName, "); err != nil {")
 	g.P("return err")
 	g.P("}")
 }
 
+// декодер слайса
 func (dg decodeGen) slcDecodeMessage(g *protogen.GeneratedFile, fieldName string) {
 	g.P("l, err = dec.DecodeArrayLen()")
 	g.P("if err != nil {")
@@ -29,6 +32,7 @@ func (dg decodeGen) slcDecodeMessage(g *protogen.GeneratedFile, fieldName string
 	g.P("}")
 }
 
+// Алгоритм декодирования
 func decode(g *protogen.GeneratedFile, msg *protogen.Message) {
 	ln := lenGen(msg)
 	g.P("var err error")
@@ -42,6 +46,13 @@ func decode(g *protogen.GeneratedFile, msg *protogen.Message) {
 	mof := map[string]struct{}{}
 	for _, f := range msg.Fields {
 		if f.Enum != nil {
+			// если enum и slice, то декодер по типу enum
+			if f.Desc.Cardinality().String() == "repeated" {
+				cst := decodeGen(kind(f))
+				cst.slcDecodeMessage(g, f.GoName)
+
+				continue
+			}
 			decodeEnum(g, f)
 			continue
 
@@ -73,6 +84,8 @@ func decode(g *protogen.GeneratedFile, msg *protogen.Message) {
 		}
 	}
 }
+
+// декодер enum
 func decodeEnum(g *protogen.GeneratedFile, f *protogen.Field) {
 	g.P("en", f.GoName, ",err:=dec.DecodeInt32()")
 	g.P("if err != nil {")
@@ -80,6 +93,8 @@ func decodeEnum(g *protogen.GeneratedFile, f *protogen.Field) {
 	g.P("}")
 	g.P(" x.", f.GoName, "=", f.Enum.GoIdent, "(", "en", f.GoName, ")")
 }
+
+// декодер oneof
 func decodeOneof(g *protogen.GeneratedFile, f *protogen.Field, name string) {
 	g.P("var val", name, " interface{}")
 	g.P("if err=dec.Decode(&val", name, ");err!=nil{")
