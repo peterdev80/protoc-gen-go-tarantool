@@ -1,6 +1,9 @@
 package tarantool
 
-import "google.golang.org/protobuf/compiler/protogen"
+import (
+	"fmt"
+	"google.golang.org/protobuf/compiler/protogen"
+)
 
 type decodeGen string
 
@@ -45,6 +48,10 @@ func decode(g *protogen.GeneratedFile, msg *protogen.Message) {
 	g.P("}")
 	mof := map[string]struct{}{}
 	for _, f := range msg.Fields {
+		if f.Desc.IsMap() {
+			mapdecode(g, f)
+			continue
+		}
 		if f.Enum != nil {
 			// если enum и slice, то декодер по типу enum
 			if f.Desc.Cardinality().String() == "repeated" {
@@ -83,6 +90,38 @@ func decode(g *protogen.GeneratedFile, msg *protogen.Message) {
 			cst.decodeType(g, f.GoName)
 		}
 	}
+}
+
+func mapdecode(g *protogen.GeneratedFile, f *protogen.Field) {
+	k := f.Desc.MapValue().Kind().String()
+	last := MapCmd.Last(k)
+
+	mn := fmt.Sprint("x.", f.GoName)
+	g.P(mn, "=map[", MapCmd.Last(f.Desc.MapKey().Kind().String()), "]",
+		last, "{}")
+	g.P("dec.SetMapDecoder(func(dec *msgpack.Decoder) (interface{}, error) {")
+	g.P("return dec.DecodeUntypedMap()")
+	g.P("})")
+
+	g.P("var m interface{}")
+	g.P("err = dec.Decode(&m)")
+	g.P("if err != nil {")
+	g.P("return err")
+	g.P("}")
+	g.P("for key, value := range m.(map[interface{}]interface{}) {")
+	g.P("switch a:= value.(type) {")
+	t, ok := MapCmd[k]
+	if !ok {
+		last = k
+		g.P("case ", k, ":")
+		//g.P(mn,"[key.(string)"=, name, "=&", ff.GoIdent, "{", ff.GoName, ":", "&a}")
+	}
+	for _, vl := range t {
+		g.P("case ", vl, ":")
+		g.P(mn, "[key.(string)]=", last, "(a)")
+	}
+	g.P("}")
+	g.P("}")
 }
 
 // декодер enum
