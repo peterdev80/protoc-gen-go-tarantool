@@ -95,7 +95,7 @@ func decode(g *protogen.GeneratedFile, msg *protogen.Message) {
 func mapdecode(g *protogen.GeneratedFile, f *protogen.Field) {
 	k := f.Desc.MapValue().Kind().String()
 	last := MapCmd.Last(k)
-
+	in := fmt.Sprint("i", f.GoName)
 	mn := fmt.Sprint("x.", f.GoName)
 	g.P(mn, "=map[", MapCmd.Last(f.Desc.MapKey().Kind().String()), "]",
 		last, "{}")
@@ -103,18 +103,18 @@ func mapdecode(g *protogen.GeneratedFile, f *protogen.Field) {
 	g.P("return dec.DecodeUntypedMap()")
 	g.P("})")
 
-	g.P("var m interface{}")
-	g.P("err = dec.Decode(&m)")
+	g.P("var ", in, " interface{}")
+	g.P("err = dec.Decode(&", in, ")")
 	g.P("if err != nil {")
 	g.P("return err")
 	g.P("}")
-	g.P("for key, value := range m.(map[interface{}]interface{}) {")
+	g.P("for key, value := range ", in, ".(map[interface{}]interface{}) {")
 	g.P("switch a:= value.(type) {")
 	t, ok := MapCmd[k]
 	if !ok {
 		last = k
 		g.P("case ", k, ":")
-		//g.P(mn,"[key.(string)"=, name, "=&", ff.GoIdent, "{", ff.GoName, ":", "&a}")
+
 	}
 	for _, vl := range t {
 		g.P("case ", vl, ":")
