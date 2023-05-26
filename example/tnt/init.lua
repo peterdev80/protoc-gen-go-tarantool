@@ -22,11 +22,14 @@ local log = require 'log'
 function push_messages(messages)
 
     log.info(messages)
+    log.info(messages.Action3)
+
+    log.info(messages[2])
 
     local m = { }
-    table.insert(m, messages[1])
-    table.insert(m, messages[2])
+   -- table.insert(m, messages[1])
+  --  table.insert(m, messages[2])
 
-    return m
+    return messages
 
 end

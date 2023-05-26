@@ -100,27 +100,18 @@ func mapdecode(g *protogen.GeneratedFile, f *protogen.Field) {
 	g.P(mn, "=map[", MapCmd.Last(f.Desc.MapKey().Kind().String()), "]",
 		last, "{}")
 	g.P("dec.SetMapDecoder(func(dec *msgpack.Decoder) (interface{}, error) {")
-	g.P("return dec.DecodeUntypedMap()")
+	g.P("return dec.DecodeTypedMap()")
 	g.P("})")
 
-	g.P("var ", in, " interface{}")
+	g.P("var ", in, " map[", MapCmd.Last(f.Desc.MapKey().Kind().String()), "]", last)
 	g.P("err = dec.Decode(&", in, ")")
 	g.P("if err != nil {")
 	g.P("return err")
 	g.P("}")
-	g.P("for key, value := range ", in, ".(map[interface{}]interface{}) {")
-	g.P("switch a:= value.(type) {")
-	t, ok := MapCmd[k]
-	if !ok {
-		last = k
-		g.P("case ", k, ":")
+	g.P("for key, value := range ", in, " {")
+	g.P(mn, "[key]=value")
 
-	}
-	for _, vl := range t {
-		g.P("case ", vl, ":")
-		g.P(mn, "[key.(string)]=", last, "(a)")
-	}
-	g.P("}")
+	//g.P("}")
 	g.P("}")
 }
 
